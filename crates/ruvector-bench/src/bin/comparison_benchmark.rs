@@ -49,30 +49,30 @@ fn main() -> Result<()> {
     let mut all_results = Vec::new();
 
     // Test 1: Ruvector (optimized)
-    println!("\n{'=':<60}");
+    println!("\n{}", "=".repeat(60));
     println!("Test 1: Ruvector (SIMD + Quantization + HNSW)");
-    println!("{'=':<60}\n");
+    println!("{}\n", "=".repeat(60));
     let result = bench_ruvector_optimized(&args)?;
     all_results.push(result);
 
     // Test 2: Ruvector (no quantization)
-    println!("\n{'=':<60}");
+    println!("\n{}", "=".repeat(60));
     println!("Test 2: Ruvector (No Quantization)");
-    println!("{'=':<60}\n");
+    println!("{}\n", "=".repeat(60));
     let result = bench_ruvector_no_quant(&args)?;
     all_results.push(result);
 
     // Test 3: Simulated Python baseline
-    println!("\n{'=':<60}");
+    println!("\n{}", "=".repeat(60));
     println!("Test 3: Simulated Python Baseline");
-    println!("{'=':<60}\n");
+    println!("{}\n", "=".repeat(60));
     let result = simulate_python_baseline(&args)?;
     all_results.push(result);
 
     // Test 4: Simulated naive brute-force
-    println!("\n{'=':<60}");
+    println!("\n{}", "=".repeat(60));
     println!("Test 4: Simulated Brute-Force Search");
-    println!("{'=':<60}\n");
+    println!("{}\n", "=".repeat(60));
     let result = simulate_brute_force(&args)?;
     all_results.push(result);
 

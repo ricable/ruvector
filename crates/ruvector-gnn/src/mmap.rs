@@ -855,9 +855,9 @@ mod tests {
 
         let manager = MmapManager::new(&path, 64, 100).unwrap();
 
-        assert_eq!(manager.embedding_offset(0), 0);
-        assert_eq!(manager.embedding_offset(1), 64 * 4); // 64 floats * 4 bytes
-        assert_eq!(manager.embedding_offset(10), 64 * 4 * 10);
+        assert_eq!(manager.embedding_offset(0), Some(0));
+        assert_eq!(manager.embedding_offset(1), Some(64 * 4)); // 64 floats * 4 bytes
+        assert_eq!(manager.embedding_offset(10), Some(64 * 4 * 10));
     }
 
     #[test]

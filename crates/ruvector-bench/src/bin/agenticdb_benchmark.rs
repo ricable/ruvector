@@ -13,7 +13,10 @@ use ruvector_bench::{
     create_progress_bar, BenchmarkResult, DatasetGenerator, LatencyStats, MemoryProfiler,
     ResultWriter, VectorDistribution,
 };
-use ruvector_core::{DbOptions, DistanceMetric, HnswConfig, SearchQuery, VectorDB, VectorEntry};
+use ruvector_core::{
+    types::{DbOptions, HnswConfig, QuantizationConfig},
+    DistanceMetric, SearchQuery, VectorDB, VectorEntry,
+};
 use serde_json::json;
 use std::collections::HashMap;
 use std::path::PathBuf;
@@ -50,30 +53,30 @@ fn main() -> Result<()> {
     let mut all_results = Vec::new();
 
     // Test 1: Reflexion episode storage/retrieval
-    println!("\n{'=':<60}");
+    println!("\n{}", "=".repeat(60));
     println!("Test 1: Reflexion Episode Storage & Retrieval");
-    println!("{'=':<60}\n");
+    println!("{}\n", "=".repeat(60));
     let result = bench_reflexion_episodes(&args)?;
     all_results.push(result);
 
     // Test 2: Skill library search
-    println!("\n{'=':<60}");
+    println!("\n{}", "=".repeat(60));
     println!("Test 2: Skill Library Search");
-    println!("{'=':<60}\n");
+    println!("{}\n", "=".repeat(60));
     let result = bench_skill_library(&args)?;
     all_results.push(result);
 
     // Test 3: Causal graph queries
-    println!("\n{'=':<60}");
+    println!("\n{}", "=".repeat(60));
     println!("Test 3: Causal Graph Queries");
-    println!("{'=':<60}\n");
+    println!("{}\n", "=".repeat(60));
     let result = bench_causal_graph(&args)?;
     all_results.push(result);
 
     // Test 4: Learning session throughput
-    println!("\n{'=':<60}");
+    println!("\n{}", "=".repeat(60));
     println!("Test 4: Learning Session Throughput");
-    println!("{'=':<60}\n");
+    println!("{}\n", "=".repeat(60));
     let result = bench_learning_session(&args)?;
     all_results.push(result);
 
@@ -105,7 +108,7 @@ fn bench_reflexion_episodes(args: &Args) -> Result<BenchmarkResult> {
         distance_metric: DistanceMetric::Cosine,
         storage_path: db_path.to_str().unwrap().to_string(),
         hnsw_config: Some(HnswConfig::default()),
-        quantization: Some(ruvector_core::QuantizationConfig::Scalar),
+        quantization: Some(QuantizationConfig::Scalar),
     };
 
     let mem_profiler = MemoryProfiler::new();
@@ -210,7 +213,7 @@ fn bench_skill_library(args: &Args) -> Result<BenchmarkResult> {
         distance_metric: DistanceMetric::Cosine,
         storage_path: db_path.to_str().unwrap().to_string(),
         hnsw_config: Some(HnswConfig::default()),
-        quantization: Some(ruvector_core::QuantizationConfig::Scalar),
+        quantization: Some(QuantizationConfig::Scalar),
     };
 
     let mem_profiler = MemoryProfiler::new();
@@ -317,7 +320,7 @@ fn bench_causal_graph(args: &Args) -> Result<BenchmarkResult> {
         distance_metric: DistanceMetric::Cosine,
         storage_path: db_path.to_str().unwrap().to_string(),
         hnsw_config: Some(HnswConfig::default()),
-        quantization: Some(ruvector_core::QuantizationConfig::Scalar),
+        quantization: Some(QuantizationConfig::Scalar),
     };
 
     let mem_profiler = MemoryProfiler::new();
@@ -418,7 +421,7 @@ fn bench_learning_session(args: &Args) -> Result<BenchmarkResult> {
         distance_metric: DistanceMetric::Cosine,
         storage_path: db_path.to_str().unwrap().to_string(),
         hnsw_config: Some(HnswConfig::default()),
-        quantization: Some(ruvector_core::QuantizationConfig::Scalar),
+        quantization: Some(QuantizationConfig::Scalar),
     };
 
     let mem_profiler = MemoryProfiler::new();

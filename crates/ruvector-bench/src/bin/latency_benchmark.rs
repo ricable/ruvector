@@ -13,7 +13,8 @@ use ruvector_bench::{
     ResultWriter, VectorDistribution,
 };
 use ruvector_core::{
-    DbOptions, DistanceMetric, HnswConfig, QuantizationConfig, SearchQuery, VectorDB, VectorEntry,
+    types::{DbOptions, HnswConfig, QuantizationConfig},
+    DistanceMetric, SearchQuery, VectorDB, VectorEntry,
 };
 use std::collections::HashMap;
 use std::path::PathBuf;
@@ -55,9 +56,9 @@ fn main() -> Result<()> {
     let mut all_results = Vec::new();
 
     // Test 1: Single-threaded latency
-    println!("\n{'=':<60}");
+    println!("\n{}", "=".repeat(60));
     println!("Test 1: Single-threaded Latency");
-    println!("{'=':<60}\n");
+    println!("{}\n", "=".repeat(60));
     let result = bench_single_threaded(&args)?;
     all_results.push(result);
 
@@ -69,24 +70,24 @@ fn main() -> Result<()> {
         .collect();
 
     for &num_threads in &thread_counts {
-        println!("\n{'=':<60}");
+        println!("\n{}", "=".repeat(60));
         println!("Test 2: Multi-threaded Latency ({} threads)", num_threads);
-        println!("{'=':<60}\n");
+        println!("{}\n", "=".repeat(60));
         let result = bench_multi_threaded(&args, num_threads)?;
         all_results.push(result);
     }
 
     // Test 3: Effect of efSearch
-    println!("\n{'=':<60}");
+    println!("\n{}", "=".repeat(60));
     println!("Test 3: Effect of efSearch on Latency");
-    println!("{'=':<60}\n");
+    println!("{}\n", "=".repeat(60));
     let result = bench_ef_search_latency(&args)?;
     all_results.extend(result);
 
     // Test 4: Effect of quantization
-    println!("\n{'=':<60}");
+    println!("\n{}", "=".repeat(60));
     println!("Test 4: Effect of Quantization on Latency");
-    println!("{'=':<60}\n");
+    println!("{}\n", "=".repeat(60));
     let result = bench_quantization_latency(&args)?;
     all_results.extend(result);
 
@@ -239,7 +240,7 @@ fn bench_ef_search_latency(args: &Args) -> Result<Vec<BenchmarkResult>> {
             latency_stats.record(query_start.elapsed())?;
             pb.inc(1);
         }
-        pb.finish_with_message(&format!("✓ ef={} complete", ef_search));
+        pb.finish_with_message(format!("✓ ef={} complete", ef_search));
 
         let total_time = search_start.elapsed();
         let qps = queries.len() as f64 / total_time.as_secs_f64();
@@ -298,7 +299,7 @@ fn bench_quantization_latency(args: &Args) -> Result<Vec<BenchmarkResult>> {
             latency_stats.record(query_start.elapsed())?;
             pb.inc(1);
         }
-        pb.finish_with_message(&format!("✓ {} complete", name));
+        pb.finish_with_message(format!("✓ {} complete", name));
 
         let total_time = search_start.elapsed();
         let qps = queries.len() as f64 / total_time.as_secs_f64();

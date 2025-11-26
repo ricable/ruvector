@@ -12,7 +12,8 @@ use ruvector_bench::{
     VectorDistribution,
 };
 use ruvector_core::{
-    DbOptions, DistanceMetric, HnswConfig, QuantizationConfig, VectorDB, VectorEntry,
+    types::{DbOptions, HnswConfig, QuantizationConfig},
+    DistanceMetric, VectorDB, VectorEntry,
 };
 use std::collections::HashMap;
 use std::path::PathBuf;
@@ -53,24 +54,24 @@ fn main() -> Result<()> {
 
     // Test 1: Memory usage at different scales
     for &scale in &scales {
-        println!("\n{'=':<60}");
+        println!("\n{}", "=".repeat(60));
         println!("Test: Memory at {} vectors", scale);
-        println!("{'=':<60}\n");
+        println!("{}\n", "=".repeat(60));
         let result = bench_memory_scale(&args, scale)?;
         all_results.push(result);
     }
 
     // Test 2: Effect of quantization on memory
-    println!("\n{'=':<60}");
+    println!("\n{}", "=".repeat(60));
     println!("Test: Effect of Quantization on Memory");
-    println!("{'=':<60}\n");
+    println!("{}\n", "=".repeat(60));
     let results = bench_quantization_memory(&args)?;
     all_results.extend(results);
 
     // Test 3: Index overhead analysis
-    println!("\n{'=':<60}");
+    println!("\n{}", "=".repeat(60));
     println!("Test: Index Overhead Analysis");
-    println!("{'=':<60}\n");
+    println!("{}\n", "=".repeat(60));
     let result = bench_index_overhead(&args)?;
     all_results.push(result);
 
@@ -239,7 +240,7 @@ fn bench_quantization_memory(args: &Args) -> Result<Vec<BenchmarkResult>> {
             db.insert(entry)?;
             pb.inc(1);
         }
-        pb.finish_with_message(&format!("✓ {} complete", name));
+        pb.finish_with_message(format!("✓ {} complete", name));
 
         let build_time = build_start.elapsed();
         let memory_mb = mem_profiler.current_usage_mb();

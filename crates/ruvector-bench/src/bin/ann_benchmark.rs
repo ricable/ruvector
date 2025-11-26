@@ -10,7 +10,8 @@ use ruvector_bench::{
     MemoryProfiler, ResultWriter, VectorDistribution,
 };
 use ruvector_core::{
-    DbOptions, DistanceMetric, HnswConfig, QuantizationConfig, SearchQuery, VectorDB, VectorEntry,
+    types::{DbOptions, HnswConfig, QuantizationConfig},
+    DistanceMetric, SearchQuery, VectorDB, VectorEntry,
 };
 use std::collections::HashMap;
 use std::path::PathBuf;
@@ -91,9 +92,9 @@ fn main() -> Result<()> {
 
     // Run benchmarks for each ef_search value
     for &ef_search in &ef_search_values {
-        println!("\n{'=':<60}");
+        println!("\n{}", "=".repeat(60));
         println!("Testing with ef_search = {}", ef_search);
-        println!("{'=':<60}\n");
+        println!("{}\n", "=".repeat(60));
 
         let result = run_benchmark(&args, &vectors, &queries, &ground_truth, ef_search)?;
         all_results.push(result);
@@ -131,7 +132,7 @@ fn load_dataset(args: &Args) -> Result<(Vec<Vec<f32>>, Vec<Vec<f32>>, Vec<Vec<St
             );
 
             let pb = create_progress_bar(args.num_vectors as u64, "Generating vectors");
-            let vectors = (0..args.num_vectors)
+            let vectors: Vec<Vec<f32>> = (0..args.num_vectors)
                 .map(|_| {
                     pb.inc(1);
                     gen.generate(1).into_iter().next().unwrap()

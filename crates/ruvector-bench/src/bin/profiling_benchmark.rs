@@ -10,7 +10,8 @@ use anyhow::Result;
 use clap::Parser;
 use ruvector_bench::{create_progress_bar, DatasetGenerator, MemoryProfiler, VectorDistribution};
 use ruvector_core::{
-    DbOptions, DistanceMetric, HnswConfig, QuantizationConfig, SearchQuery, VectorDB, VectorEntry,
+    types::{DbOptions, HnswConfig, QuantizationConfig},
+    DistanceMetric, SearchQuery, VectorDB, VectorEntry,
 };
 use std::path::PathBuf;
 use std::time::Instant;
@@ -59,21 +60,21 @@ fn main() -> Result<()> {
     };
 
     // Profile 1: Indexing performance
-    println!("\n{'=':<60}");
+    println!("\n{}", "=".repeat(60));
     println!("Profiling: Index Construction");
-    println!("{'=':<60}\n");
+    println!("{}\n", "=".repeat(60));
     profile_indexing(&args)?;
 
     // Profile 2: Search performance
-    println!("\n{'=':<60}");
+    println!("\n{}", "=".repeat(60));
     println!("Profiling: Search Operations");
-    println!("{'=':<60}\n");
+    println!("{}\n", "=".repeat(60));
     profile_search(&args)?;
 
     // Profile 3: Mixed workload
-    println!("\n{'=':<60}");
+    println!("\n{}", "=".repeat(60));
     println!("Profiling: Mixed Read/Write Workload");
-    println!("{'=':<60}\n");
+    println!("{}\n", "=".repeat(60));
     profile_mixed_workload(&args)?;
 
     // Stop profiling and generate flamegraph
